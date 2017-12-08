@@ -6,8 +6,8 @@ from time import sleep
 import numpy as np
 import math
 import matplotlib
-import matplotlib.pyplot as plt
 matplotlib.use('MacOSX') 
+import matplotlib.pyplot as plt
 
 cascPath = "haarcascade_frontalface_default.xml"
 faceCascade = cv2.CascadeClassifier(cascPath)
@@ -122,7 +122,7 @@ while True:
                 del(coordinates[index])
         del(frame_det_count[:])
         del(coordinates[:])
-        # plt.clf()
+        plt.clf()
         plt.xlim(0, roomx)
         plt.ylim(0, roomy)
         plt.scatter(xvalues, yvalues)
