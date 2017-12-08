@@ -5,6 +5,9 @@ import datetime as dt
 from time import sleep
 import numpy as np
 import math
+import matplotlib
+import matplotlib.pyplot as plt
+matplotlib.use('MacOSX') 
 
 cascPath = "haarcascade_frontalface_default.xml"
 faceCascade = cv2.CascadeClassifier(cascPath)
@@ -29,22 +32,24 @@ teta_0 = 60.5
 #xmax is 10 feet if given room co ordinate is 10 feet by 10 feet
 #xmin will be 0
 xmax=1000
-x1= 5
+x1= 4
 y1= 0
-roomx = 10
-roomy = 10
+roomx = 8
+roomy = 13
 # provided camera is on the center of the wall of dimension 10 feet by 10 feet   
+
+plt.ion()
+pre_plot = None
 
 coordinates = list()
 frame_det_count = list()
 
 while True:
+
     if not video_capture.isOpened():
-    
         print('Unable to load camera.')
         sleep(5)
-        pass
-    
+        
     # Capture frame-by-frame
     ret, frame = video_capture.read()
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -103,16 +108,26 @@ while True:
     if frame_count >= 30:
         frame_count = 0
         print frame_det_count
+        xvalues = list()
+        yvalues = list()
         for index, (x2, y2) in enumerate(coordinates):
             #for each faces
             if not frame_det_count[index] == 0:
                 x2 = x2 / frame_det_count[index]
                 y2 = y2 / frame_det_count[index]
                 print x2, y2
+                xvalues.append(x2)
+                yvalues.append(roomy - y2)
                 frame_det_count[index] = 0
                 del(coordinates[index])
         del(frame_det_count[:])
         del(coordinates[:])
+        # plt.clf()
+        plt.xlim(0, roomx)
+        plt.ylim(0, roomy)
+        plt.scatter(xvalues, yvalues)
+        plt.pause(0.5)
+        
 
     if anterior != len(faces):
         anterior = len(faces)
