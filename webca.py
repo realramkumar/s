@@ -18,7 +18,7 @@ x1= float(raw_input('camera x'))
 y1= float(raw_input('camera y'))
 roomx = float(raw_input('room width'))
 roomy = float(raw_input('room length'))
-if x1 == 0 or x == roomy:
+if x1 == 0 or x1 == roomy:
     inverted = True
 
 video_capture = cv2.VideoCapture(0)
