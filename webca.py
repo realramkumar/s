@@ -13,9 +13,16 @@ cascPath = "haarcascade_frontalface_default.xml"
 faceCascade = cv2.CascadeClassifier(cascPath)
 log.basicConfig(filename='webcam.log',level=log.INFO)
 
+inverted = False
+x1= float(raw_input('camera x'))
+y1= float(raw_input('camera y'))
+roomx = float(raw_input('room width'))
+roomy = float(raw_input('room length'))
+if x1 == 0 or x == roomy:
+    inverted = True
+
 video_capture = cv2.VideoCapture(0)
 anterior = 0
-
 frame_count = 0
 
 #f=w*W/D (focal length is found by this formula 
@@ -32,10 +39,7 @@ teta_0 = 60.5
 #xmax is 10 feet if given room co ordinate is 10 feet by 10 feet
 #xmin will be 0
 xmax=1000
-x1= 4
-y1= 0
-roomx = 8
-roomy = 13
+
 # provided camera is on the center of the wall of dimension 10 feet by 10 feet   
 
 plt.ion()
@@ -116,8 +120,12 @@ while True:
                 x2 = x2 / frame_det_count[index]
                 y2 = y2 / frame_det_count[index]
                 print x2, y2
-                xvalues.append(x2)
-                yvalues.append(roomy - y2)
+                if not inverted:
+                    xvalues.append(x2)
+                    yvalues.append(roomy - y2)
+                else:
+                    xvalues.append(y2)
+                    yvalues.append(roomx - x2)
                 frame_det_count[index] = 0
                 del(coordinates[index])
         del(frame_det_count[:])
